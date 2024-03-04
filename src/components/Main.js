@@ -1,5 +1,5 @@
-// Main.js
-import React from 'react';
+
+import React, { useReducer } from 'react';
 import '../components/littlelemon.css'
 import food from '../components/assets/resfood.jpg';
 import greeksalad from '../components/assets/greeksalad.jpg';
@@ -11,10 +11,46 @@ import user3 from '../components/assets/MEE.jpg';
 import mario from '../components/assets/mario.jpg';
 import adrian from '../components/assets/adrian.jpg';
 import { useNavigate } from 'react-router-dom';
+import { Footer } from './Footer';
+import { Newpage } from './newpage';
 
+
+export const initializeTimes = () => {
+  return [
+    '17:00', '18:00', '19:00', '20:00', '21:00', '22:00'
+  ];
+};
+
+export const updateTimes = (currentState) => {
+  return currentState; // Return the current state
+};
 
 export const Main = () => {
-    const navigate = useNavigate()
+  const navigate = useNavigate();
+
+  // Define reducer function
+  const reducer = (state, action) => {
+    switch (action.type) {
+      case 'UPDATE_TIMES':
+        return initializeTimes(); // For now, return initial times regardless of date
+      default:
+        return state;
+    }
+  };
+
+  // Define initial state using initializeTimes function
+  const initialState = initializeTimes();
+
+  // Define reducer state using useReducer
+  const [availableTimes, dispatch] = useReducer(reducer, initialState);
+
+  // Define updateTimes function
+  const updateTimes = () => {
+    dispatch({ type: 'UPDATE_TIMES' }); // Dispatch action to update times
+  };
+
+
+
   return (
     <main>
       <section className="main-section">
@@ -213,6 +249,9 @@ export const Main = () => {
   </aside>
 
 </section>
+
+
+<Footer />
 
     </main>
   );
